@@ -16,7 +16,6 @@
  * License:           MIT License
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       bb-email-reminder
- * Domain Path:       /languages
  */
 
 namespace BoxyBird\EmailReminder;

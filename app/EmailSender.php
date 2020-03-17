@@ -25,7 +25,10 @@ class EmailSender
     public static function run()
     {
         self::init();
-        self::sendEmails();
+
+        if (self::$active === 'on' && self::$subject && self::$message) {
+            self::sendEmails();
+        }
     }
 
     public static function init()
@@ -43,28 +46,26 @@ class EmailSender
 
     public static function sendEmails()
     {
-        if (self::$active === 'on' && self::$subject && self::$message) {
-            foreach (self::$users as $user) {
-                $subject_replace = [
-                    '{{DISPLAY_NAME}}' => $user['display_name'],
-                    '{{USERNAME}}'     => $user['user_nicename'],
-                ];
+        foreach (self::$users as $user) {
+            $subject_replace = [
+                '{{DISPLAY_NAME}}' => $user['display_name'],
+                '{{USERNAME}}'     => $user['user_nicename'],
+            ];
 
-                $message_replace = array_merge($subject_replace, [
-                    '{{SITE_URL}}'  => get_bloginfo('url'),
-                    '{{SITE_NAME}}' => get_bloginfo('name'),
-                ]);
+            $message_replace = array_merge($subject_replace, [
+                '{{SITE_URL}}'  => get_bloginfo('url'),
+                '{{SITE_NAME}}' => get_bloginfo('name'),
+            ]);
 
-                $prepared_subject = str_replace(array_keys($subject_replace), array_values($subject_replace), self::$subject);
-                $prepared_message = str_replace(array_keys($message_replace), array_values($message_replace), self::$message);
-                $headers          = ['Content-Type: text/html; charset=UTF-8'];
+            $prepared_subject = str_replace(array_keys($subject_replace), array_values($subject_replace), self::$subject);
+            $prepared_message = str_replace(array_keys($message_replace), array_values($message_replace), self::$message);
+            $headers          = ['Content-Type: text/html; charset=UTF-8'];
 
-                $mail = wp_mail($user['user_email'], $prepared_subject, $prepared_message, $headers);
+            $mail = wp_mail($user['user_email'], $prepared_subject, $prepared_message, $headers);
 
-                if ($mail) {
-                    self::incrementSentCount($user);
-                    self::updateLastSentDate($user);
-                }
+            if ($mail) {
+                self::incrementSentCount($user);
+                self::updateLastSentDate($user);
             }
         }
     }
@@ -116,6 +117,12 @@ class EmailSender
                             SELECT `user_id` FROM `{$db->prefix}usermeta`
                             WHERE `meta_key` = 'bb_email_reminder_sent_count'
                             AND `meta_value` < %d
+                            AND `user_id` = `user_id`
+                        )
+                        AND `user_id` IN (
+                            SELECT `user_id` FROM `{$db->prefix}usermeta`
+                            WHERE `meta_key` = 'bb_email_reminder_sent_date'
+                            AND DATE(`meta_value`) < DATE_SUB(NOW(), INTERVAL 1 DAY)
                             AND `user_id` = `user_id`
                         )
                     )
