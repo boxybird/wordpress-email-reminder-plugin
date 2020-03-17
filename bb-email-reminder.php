@@ -48,6 +48,7 @@ register_deactivation_hook(__FILE__, [Setup::class, 'deactivation']);
 /**
  * Init core classes
  */
-LastLogin::init();
 EmailSender::init();
-new AdminSettings(new WeDevs_Settings_API);
+LastLoginAdminColumn::init();
+EmailCountAdminColumn::init();
+new AdminSettings(new Lib\WeDevs_Settings_API);
