@@ -24,7 +24,7 @@ class Setup
     public static function activation()
     {
         if (!wp_next_scheduled('bb_email_reminder_cron')) {
-            wp_schedule_event(time(), 'every_minute', 'bb_email_reminder_cron');
+            wp_schedule_event(time(), 'hourly', 'bb_email_reminder_cron');
         }
     }
 
