@@ -10,7 +10,7 @@
  * Plugin Name:       Email Reminder
  * Plugin URI:        #
  * Description:       Sends email to User based on their last login, and adds timestamp and email sent count admin column for the last time they logged-in.
- * Version:           1.0.0
+ * Version:           0.1.0
  * Author:            Andrew Rhyand
  * Author URI:        andrewrhyand.com
  * License:           MIT License
