@@ -2,6 +2,8 @@
 
 namespace BoxyBird\EmailReminder;
 
+use BoxyBird\EmailReminder\Lib\WeDevs_Settings_API;
+
 class AdminSettings
 {
     private $settings_api;
@@ -26,15 +28,15 @@ class AdminSettings
 
     public function admin_menu()
     {
-        add_submenu_page('users.php', 'Settings API', 'Settings API', 'activate_plugins', 'settings_api_test', [$this, 'plugin_page']);
+        add_submenu_page('users.php', 'Email Reminder Settings', 'Email Reminder Settings', 'activate_plugins', 'bb-email-reminder', [$this, 'plugin_page']);
     }
 
     public function get_settings_sections()
     {
         $sections = [
             [
-                'id'    => 'wedevs_basics',
-                'title' => __('Basic Settings', 'bb-email-reminder')
+                'id'    => 'bb_email_reminder',
+                'title' => __('Email Reminder Settings', 'bb-email-reminder')
             ]
         ];
 
@@ -49,22 +51,36 @@ class AdminSettings
     public function get_settings_fields()
     {
         $settings_fields = [
-            'wedevs_basics' => [
+            'bb_email_reminder' => [
                 [
                     'name'  => 'active',
                     'label' => __('Active', 'bb-email-reminder'),
+                    'desc'  => __('Enables whether emails sending is active', 'bb-email-reminder'),
                     'type'  => 'checkbox'
                 ],
                 [
                     'name'              => 'since_login',
                     'label'             => __('Since Last Login', 'bb-email-reminder'),
-                    'desc'              => __('Number of days past since User last logged-in before sending email.', 'bb-email-reminder'),
+                    'desc'              => __('Number of days past since User last logged-in before sending email. (required)', 'bb-email-reminder'),
                     'placeholder'       => __(7, 'bb-email-reminder'),
                     'min'               => 1,
                     'max'               => 365,
                     'step'              => 1,
                     'type'              => 'number',
                     'default'           => 7,
+                    'required'          => true,
+                    'sanitize_callback' => 'absint'
+                ],
+                [
+                    'name'              => 'email_send_limit',
+                    'label'             => __('Email Send Limit', 'bb-email-reminder'),
+                    'desc'              => __('Max number of emails send to an individual User. (required)', 'bb-email-reminder'),
+                    'placeholder'       => __(3, 'bb-email-reminder'),
+                    'min'               => 1,
+                    'step'              => 1,
+                    'type'              => 'number',
+                    'default'           => 3,
+                    'required'          => true,
                     'sanitize_callback' => 'absint'
                 ],
                 [
@@ -94,13 +110,13 @@ class AdminSettings
                     'type'     => 'text',
                 ],
                 [
-                    'name'        => 'message',
-                    'label'       => __('Body', 'bb-email-reminder'),
-                    'desc'        => __('Body of the email.', 'bb-email-reminder'),
-                    'sub_desc'    => __('Available tags: <code>{{USERNAME}}</code> <code>{{DISPLAY_NAME}}</code> <code>{{SITE_URL}}</code> <code>{{SITE_NAME}}</code>', 'bb-email-reminder'),
-                    'placeholder' => __('Hey, {{DISPLAY_NAME}}. It looks like you haven\'t logged-in to your account for a while.', 'bb-email-reminder'),
-                    'type'        => 'wysiwyg',
-                    'size'        => 'large'
+                    'name'     => 'message',
+                    'label'    => __('Body', 'bb-email-reminder'),
+                    'desc'     => __('Body of the email.', 'bb-email-reminder'),
+                    'sub_desc' => __('Available tags: <code>{{USERNAME}}</code> <code>{{DISPLAY_NAME}}</code> <code>{{SITE_URL}}</code> <code>{{SITE_NAME}}</code>', 'bb-email-reminder'),
+                    'default'  => __('Hey, {{DISPLAY_NAME}}. It looks like you haven\'t logged-in to your account for a while. Come say hello! <a href="{{SITE_URL}}">{{SITE_NAME}}</a>', 'bb-email-reminder'),
+                    'type'     => 'wysiwyg',
+                    'size'     => 'large'
                 ]
             ]
         ];
