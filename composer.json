@@ -1,0 +1,15 @@
+{
+    "name": "boxybird/email-reminder-plugin",
+    "authors": [
+        {
+            "name": "Andrew Rhyand",
+            "email": "hello@andrewrhyand.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "BoxyBird\\EmailReminder\\": "app/"
+        }
+    }
+}
