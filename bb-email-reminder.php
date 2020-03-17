@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       Email Reminder
  * Plugin URI:        #
- * Description:       Sends email to User based on their last login, and adds timestamp admin column for the last time they logged-in.
+ * Description:       Sends email to User based on their last login, and adds timestamp and email sent count admin column for the last time they logged-in.
  * Version:           1.0.0
  * Author:            Andrew Rhyand
  * Author URI:        andrewrhyand.com
@@ -39,11 +39,12 @@ define('BOXYBIRD_EMAIL_REMINDER', '1.0.0');
 define('BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT', 'Y-m-d H:i:s');
 
 /**
- * Registration hooks
+ * Setup
  */
 register_activation_hook(__FILE__, [Setup::class, 'activation']);
 register_deactivation_hook(__FILE__, [Setup::class, 'deactivation']);
-Setup::cronSchedules();
+add_filter('cron_schedules', [Setup::class, 'cronSchedules']);
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), [Setup::class, 'pluginActionLinks']);
 
 /**
  * Init core classes
