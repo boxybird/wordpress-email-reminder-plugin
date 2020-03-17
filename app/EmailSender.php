@@ -84,7 +84,7 @@ class EmailSender
 
     protected static function setProperties()
     {
-        $options = get_option('wedevs_basics');
+        $options = get_option('bb_email_reminder');
 
         self::$active           = !empty($options['active']) ? $options['active'] : 'off';
         self::$subject          = !empty($options['subject']) ? $options['subject'] : '';
@@ -105,12 +105,12 @@ class EmailSender
                     "SELECT `ID`, `user_nicename`, `user_email`, `display_name` FROM `{$db->prefix}users`
                      WHERE `ID` IN (
                         SELECT `user_id` FROM `{$db->prefix}usermeta` 
-                        WHERE `meta_key` = 'bb_last_login'
+                        WHERE `meta_key` = 'bb_email_reminder_last_login'
                         AND DATE(`meta_value`) < DATE_SUB(NOW(), INTERVAL %d DAY)
                         AND `user_id` IN (
                             SELECT `user_id` FROM `{$db->prefix}usermeta`
-                            WHERE `meta_key` = 'bb_email_sent_count'
-                            AND `meta_value` <= %d
+                            WHERE `meta_key` = 'bb_email_reminder_sent_count'
+                            AND `meta_value` < %d
                             AND `user_id` = `user_id`
                         )
                     )
@@ -130,15 +130,15 @@ class EmailSender
 
     protected static function incrementSentCount($user)
     {
-        $count = get_user_meta($user['ID'], 'bb_email_sent_count', true);
+        $count = get_user_meta($user['ID'], 'bb_email_reminder_sent_count', true);
         $count = !empty($count) ? (int) $count : 0;
         $count++;
 
-        update_user_meta($user['ID'], 'bb_email_sent_count', $count);
+        update_user_meta($user['ID'], 'bb_email_reminder_sent_count', $count);
     }
 
     protected static function updateLastSentDate($user)
     {
-        update_user_meta($user['ID'], 'bb_email_sent_date', date(BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT));
+        update_user_meta($user['ID'], 'bb_email_reminder_sent_date', date(BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT));
     }
 }
