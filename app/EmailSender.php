@@ -22,6 +22,12 @@ class EmailSender
 
     protected static $email_send_limit;
 
+    public static function run()
+    {
+        self::init();
+        self::sendEmails();
+    }
+
     public static function init()
     {
         global $wpdb;
@@ -31,7 +37,6 @@ class EmailSender
         self::setProperties();
         self::setUsers();
 
-        // add_action('ddd', [EmailSender::class, 'sendEmails']);
         add_filter('wp_mail_from', [EmailSender::class, 'modifyMailFrom']);
         add_filter('wp_mail_from_name', [EmailSender::class, 'modifyFromName']);
     }

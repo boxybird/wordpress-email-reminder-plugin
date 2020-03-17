@@ -44,11 +44,19 @@ define('BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT', 'Y-m-d H:i:s');
  */
 register_activation_hook(__FILE__, [Setup::class, 'activation']);
 register_deactivation_hook(__FILE__, [Setup::class, 'deactivation']);
+Setup::cronSchedules();
 
 /**
  * Init core classes
  */
-EmailSender::init();
+HandleUserLogin::init();
 LastLoginAdminColumn::init();
 EmailCountAdminColumn::init();
 new AdminSettings(new Lib\WeDevs_Settings_API);
+
+/**
+ * Send emails based on cron schedule
+ */
+add_action('bb_email_reminder_cron', function () {
+    EmailSender::run();
+});
