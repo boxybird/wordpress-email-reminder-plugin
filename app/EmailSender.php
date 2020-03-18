@@ -47,6 +47,10 @@ class EmailSender
     public static function sendEmails()
     {
         foreach (self::$users as $user) {
+            if (user_can($user['ID'], 'administrator')) {
+                continue;
+            }
+
             $subject_replace = [
                 '{{DISPLAY_NAME}}' => $user['display_name'],
                 '{{USERNAME}}'     => $user['user_nicename'],
