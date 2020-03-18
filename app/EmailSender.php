@@ -22,15 +22,6 @@ class EmailSender
 
     protected static $email_send_limit;
 
-    public static function run()
-    {
-        self::init();
-
-        if (self::$active === 'on' && self::$subject && self::$message) {
-            self::sendEmails();
-        }
-    }
-
     public static function init()
     {
         global $wpdb;
@@ -44,10 +35,28 @@ class EmailSender
         add_filter('wp_mail_from_name', [EmailSender::class, 'modifyFromName']);
     }
 
-    public static function sendEmails()
+    public static function run()
+    {
+        self::init();
+
+        if (self::$active === 'on' && self::$subject && self::$message) {
+            self::sendEmails();
+        }
+    }
+
+    public static function runTest()
+    {
+        self::init();
+
+        self::$users[] = (array) wp_get_current_user()->data;
+
+        self::sendEmails(false);
+    }
+
+    public static function sendEmails($exclude_admins = true)
     {
         foreach (self::$users as $user) {
-            if (user_can($user['ID'], 'administrator')) {
+            if ($exclude_admins && user_can($user['ID'], 'administrator')) {
                 continue;
             }
 
