@@ -103,7 +103,7 @@ class EmailSender
 
     protected static function setProperties()
     {
-        $options = get_option('bb_email_reminder');
+        $options = get_option('bb_email_reminder_settings');
 
         self::$active           = !empty($options['active']) ? $options['active'] : 'off';
         self::$subject          = !empty($options['subject']) ? $options['subject'] : '';
