@@ -68,6 +68,7 @@ class AdminSettings
                     'step'              => 1,
                     'type'              => 'number',
                     'default'           => 7,
+                    'input_type'        => 'number',
                     'required'          => true,
                     'sanitize_callback' => 'absint'
                 ],
@@ -80,6 +81,7 @@ class AdminSettings
                     'step'              => 1,
                     'type'              => 'number',
                     'default'           => 3,
+                    'input_type'        => 'number',
                     'required'          => true,
                     'sanitize_callback' => 'absint'
                 ],
