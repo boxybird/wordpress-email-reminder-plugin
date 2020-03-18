@@ -8,7 +8,7 @@ namespace BoxyBird\EmailReminder\Lib;
  * @version 1.2 (18-Oct-2015)
  *
  * @author Tareq Hasan <tareq@weDevs.com>
- * @link http://tareq.weDevs.com Tareq's Planet
+ * @link http://tareq.weDevs.com Tareq's Planet (https://github.com/tareq1988/wordpress-settings-api-class)
  * @example src/settings-api.php How to use the class (removed)
  */
 if (!class_exists('WeDevs_Settings_API')) {

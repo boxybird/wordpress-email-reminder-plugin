@@ -35,9 +35,9 @@ class Settings
     {
         $sections = [
             [
-                'id'    => 'bb_email_reminder',
+                'id'    => 'bb_email_reminder_settings',
                 'title' => __('Email Reminder Settings', 'bb-email-reminder')
-            ]
+            ],
         ];
 
         return $sections;
@@ -51,12 +51,13 @@ class Settings
     public function get_settings_fields()
     {
         $settings_fields = [
-            'bb_email_reminder' => [
+            'bb_email_reminder_settings' => [
                 [
-                    'name'  => 'active',
-                    'label' => __('Active', 'bb-email-reminder'),
-                    'desc'  => __('Enables whether emails sending is active', 'bb-email-reminder'),
-                    'type'  => 'checkbox'
+                    'name'    => 'active',
+                    'label'   => __('Active', 'bb-email-reminder'),
+                    'desc'    => __('Enables whether emails sending is active', 'bb-email-reminder'),
+                    'type'    => 'checkbox',
+                    'default' => 'off',
                 ],
                 [
                     'name'              => 'since_login',
@@ -117,10 +118,18 @@ class Settings
                     'label'    => __('Body', 'bb-email-reminder'),
                     'desc'     => __('Body of the email.', 'bb-email-reminder'),
                     'sub_desc' => __('Available tags: <code>{{USERNAME}}</code> <code>{{DISPLAY_NAME}}</code> <code>{{SITE_URL}}</code> <code>{{SITE_NAME}}</code>', 'bb-email-reminder'),
-                    'default'  => __('Hey, {{DISPLAY_NAME}}. It looks like you haven\'t logged-in to your account for a while. Come say hello! <a href="{{SITE_URL}}">{{SITE_NAME}}</a>', 'bb-email-reminder'),
+                    'default'  => __("Hey, {{DISPLAY_NAME}}. It looks like you haven't logged-in to your account for a while. Come say hello! <a href='{{SITE_URL}}'>{{SITE_NAME}}</a>", 'bb-email-reminder'),
                     'type'     => 'textarea',
+                    'rows'     => 8,
                     'required' => true,
-                    'size'     => 'large'
+                    'size'     => 'large',
+                ],
+                [
+                    'name'    => 'send_test',
+                    'label'   => __('Send Test Email', 'bb-email-reminder'),
+                    'desc'    => __('If checked, a test email will be sent to <strong>' . wp_get_current_user()->user_email . '</strong> on save.', 'bb-email-reminder'),
+                    'type'    => 'checkbox',
+                    'default' => 'off',
                 ]
             ]
         ];

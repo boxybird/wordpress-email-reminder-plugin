@@ -69,7 +69,7 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), [Setup::class, 'p
 HandleUserLogin::init();
 Admin\LastLoginColumn::init();
 Admin\EmailCountColumn::init();
-new Admin\Settings(new Lib\WeDevs_Settings_API);
+new Admin\Settings(new SettingApi);
 
 /**
  * Send emails based on cron schedule
@@ -77,3 +77,17 @@ new Admin\Settings(new Lib\WeDevs_Settings_API);
 add_action('bb_email_reminder_cron', function () {
     EmailSender::run();
 });
+
+/**
+ * Send email based of 'Send Test Email' option
+ */
+add_action('update_option_bb_email_reminder_settings', function ($old_value, $value) {
+    if (isset($value['send_test']) && $value['send_test'] !== 'on') {
+        return;
+    }
+
+    $value['send_test'] = 'off';
+    update_option('bb_email_reminder_settings', $value);
+
+    EmailSender::runTest();
+}, 10, 2);
