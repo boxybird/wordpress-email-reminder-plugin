@@ -26,15 +26,34 @@ if (!defined('WPINC')) {
 }
 
 /**
- * Composer Autoload
+ * Plugin constants.
  */
-require_once __DIR__ . '/vendor/autoload.php';
+define('BOXYBIRD_EMAIL_REMINDER_NAME', 'Email Reminder');
+define('BOXYBIRD_EMAIL_REMINDER_VERSION', '0.1.0');
+define('BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT', 'Y-m-d H:i:s');
 
 /**
- * Currently plugin version.
+ * Composer Autoload
  */
-define('BOXYBIRD_EMAIL_REMINDER', '0.1.0');
-define('BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT', 'Y-m-d H:i:s');
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+    add_action('admin_notices', function () {
+        ?>
+            <div class="notice notice-error">
+                <p>
+                    <strong>'<?php echo BOXYBIRD_EMAIL_REMINDER_NAME ?>'</strong>
+                    <span>requires you run composer install to function.</span>
+                </p>
+                <p>If this is a concept is foreign, you may have installed the wrong version of the plugin.</p>
+            </div>
+        <?php
+
+        deactivate_plugins(__FILE__);
+    });
+
+    return;
+}
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Setup
