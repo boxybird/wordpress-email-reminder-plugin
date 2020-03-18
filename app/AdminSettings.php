@@ -115,7 +115,7 @@ class AdminSettings
                     'desc'     => __('Body of the email.', 'bb-email-reminder'),
                     'sub_desc' => __('Available tags: <code>{{USERNAME}}</code> <code>{{DISPLAY_NAME}}</code> <code>{{SITE_URL}}</code> <code>{{SITE_NAME}}</code>', 'bb-email-reminder'),
                     'default'  => __('Hey, {{DISPLAY_NAME}}. It looks like you haven\'t logged-in to your account for a while. Come say hello! <a href="{{SITE_URL}}">{{SITE_NAME}}</a>', 'bb-email-reminder'),
-                    'type'     => 'wysiwyg',
+                    'type'     => 'textarea',
                     'size'     => 'large'
                 ]
             ]
