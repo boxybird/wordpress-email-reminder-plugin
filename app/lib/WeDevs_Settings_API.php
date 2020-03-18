@@ -131,7 +131,8 @@ if (!class_exists('WeDevs_Settings_API')) {
                     $type       = isset($option['type']) ? $option['type'] : 'text';
                     $input_type = isset($option['input_type']) ? $option['input_type'] : 'text';
                     $name       = isset($option['label']) ? $option['label'] : '';
-                    $required   = isset($option['required']) && $option['required'] === true ? true : false;
+                    $rows       = isset($option['rows']) ? $option['rows'] : 5;
+                    $required   = isset($option['required']) && $option['required'] === true ? 'required' : '';
 
                     $args = [
                         'id'                => $option['name'],
@@ -147,6 +148,7 @@ if (!class_exists('WeDevs_Settings_API')) {
                         'sanitize_callback' => isset($option['sanitize_callback']) ? $option['sanitize_callback'] : '',
                         'type'              => $type,
                         'input_type'        => $input_type,
+                        'rows'              => $rows,
                         'required'          => $required,
                     ];
 
@@ -202,9 +204,8 @@ if (!class_exists('WeDevs_Settings_API')) {
             $value      = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
             $size       = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
             $input_type = isset($args['input_type']) ? esc_attr($args['input_type']) : 'text';
-            $required   = $args['required'] ? 'required' : '';
 
-            $html  = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s" %6$s />', $input_type, $size, $args['section'], $args['id'], $value, $required);
+            $html  = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s" %6$s />', $input_type, $size, $args['section'], $args['id'], $value, $args['required']);
             $html .= $this->get_field_description($args);
             $html .= $this->get_field_sub_description($args);
 
@@ -327,9 +328,8 @@ if (!class_exists('WeDevs_Settings_API')) {
             $value    = esc_textarea($this->get_option($args['id'], $args['section'], $args['std']));
             $value    = !empty(trim($value)) ? $value : $args['placeholder'];
             $size     = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
-            $required = $args['required'] ? 'required' : '';
 
-            $html  = sprintf('<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" %4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $required, $value);
+            $html  = sprintf('<textarea rows="%1$s" cols="55" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" %5$s>%6$s</textarea>', $args['rows'], $size, $args['section'], $args['id'], $args['required'], $value);
             $html .= $this->get_field_description($args);
             $html .= $this->get_field_sub_description($args);
 
