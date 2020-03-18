@@ -18,7 +18,13 @@
  * Text Domain:       bb-email-reminder
  */
 
-namespace BoxyBird\EmailReminder;
+use BoxyBird\EmailReminder\Setup;
+use BoxyBird\EmailReminder\SettingApi;
+use BoxyBird\EmailReminder\EmailSender;
+use BoxyBird\EmailReminder\Admin\Settings;
+use BoxyBird\EmailReminder\HandleUserLogin;
+use BoxyBird\EmailReminder\Admin\LastLoginColumn;
+use BoxyBird\EmailReminder\Admin\EmailCountColumn;
 
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
@@ -67,9 +73,9 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), [Setup::class, 'p
  * Init core classes
  */
 HandleUserLogin::init();
-Admin\LastLoginColumn::init();
-Admin\EmailCountColumn::init();
-new Admin\Settings(new SettingApi);
+LastLoginColumn::init();
+EmailCountColumn::init();
+new Settings(new SettingApi);
 
 /**
  * Send emails based on cron schedule
