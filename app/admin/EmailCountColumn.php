@@ -1,13 +1,13 @@
 <?php
 
-namespace BoxyBird\EmailReminder;
+namespace BoxyBird\EmailReminder\Admin;
 
-class EmailCountAdminColumn
+class EmailCountColumn
 {
     public static function init()
     {
-        add_filter('manage_users_columns', [EmailCountAdminColumn::class, 'addAdminColumn']);
-        add_filter('manage_users_custom_column', [EmailCountAdminColumn::class, 'addEmailCount'], 10, 3);
+        add_filter('manage_users_columns', [EmailCountColumn::class, 'addAdminColumn']);
+        add_filter('manage_users_custom_column', [EmailCountColumn::class, 'addEmailCount'], 10, 3);
     }
 
     public static function addAdminColumn($column)

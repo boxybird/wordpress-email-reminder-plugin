@@ -33,7 +33,7 @@ define('BOXYBIRD_EMAIL_REMINDER_VERSION', '0.1.0');
 define('BOXYBIRD_EMAIL_REMINDER_DATE_FORMAT', 'Y-m-d H:i:s');
 
 /**
- * Composer Autoload
+ * Handle Composer autoload
  */
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     add_action('admin_notices', function () {
@@ -67,9 +67,9 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), [Setup::class, 'p
  * Init core classes
  */
 HandleUserLogin::init();
-LastLoginAdminColumn::init();
-EmailCountAdminColumn::init();
-new AdminSettings(new Lib\WeDevs_Settings_API);
+Admin\LastLoginColumn::init();
+Admin\EmailCountColumn::init();
+new Admin\Settings(new Lib\WeDevs_Settings_API);
 
 /**
  * Send emails based on cron schedule

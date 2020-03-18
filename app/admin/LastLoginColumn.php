@@ -1,14 +1,14 @@
 <?php
 
-namespace BoxyBird\EmailReminder;
+namespace BoxyBird\EmailReminder\Admin;
 
-class LastLoginAdminColumn
+class LastLoginColumn
 {
     public static function init()
     {
-        add_action('wp_login', [LastLoginAdminColumn::class, 'updateTimestamp'], 10, 2);
-        add_filter('manage_users_columns', [LastLoginAdminColumn::class, 'addAdminColumn']);
-        add_filter('manage_users_custom_column', [LastLoginAdminColumn::class, 'addTimestamp'], 10, 3);
+        add_action('wp_login', [LastLoginColumn::class, 'updateTimestamp'], 10, 2);
+        add_filter('manage_users_columns', [LastLoginColumn::class, 'addAdminColumn']);
+        add_filter('manage_users_custom_column', [LastLoginColumn::class, 'addTimestamp'], 10, 3);
     }
 
     public static function updateTimestamp($user_login, $user)

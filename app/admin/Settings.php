@@ -1,10 +1,10 @@
 <?php
 
-namespace BoxyBird\EmailReminder;
+namespace BoxyBird\EmailReminder\Admin;
 
 use BoxyBird\EmailReminder\Lib\WeDevs_Settings_API;
 
-class AdminSettings
+class Settings
 {
     private $settings_api;
 
