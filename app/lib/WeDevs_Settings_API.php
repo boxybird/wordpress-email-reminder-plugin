@@ -175,7 +175,7 @@ if (!class_exists('WeDevs_Settings_API')) {
 
             return $desc;
         }
-        
+
         /**
          * Get field sub-description for display
          *
@@ -324,11 +324,12 @@ if (!class_exists('WeDevs_Settings_API')) {
          */
         public function callback_textarea($args)
         {
-            $value = esc_textarea($this->get_option($args['id'], $args['section'], $args['std']));
-            $value = !empty(trim($value)) ? $value : $args['placeholder'];
-            $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+            $value    = esc_textarea($this->get_option($args['id'], $args['section'], $args['std']));
+            $value    = !empty(trim($value)) ? $value : $args['placeholder'];
+            $size     = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+            $required = $args['required'] ? 'required' : '';
 
-            $html  = sprintf('<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]">%4$s</textarea>', $size, $args['section'], $args['id'], $value);
+            $html  = sprintf('<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" %4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $required, $value);
             $html .= $this->get_field_description($args);
             $html .= $this->get_field_sub_description($args);
 
@@ -373,7 +374,7 @@ if (!class_exists('WeDevs_Settings_API')) {
             echo '</div>';
 
             echo $this->get_field_description($args);
-            echo $this->get_field_sub_description($args);   
+            echo $this->get_field_sub_description($args);
         }
 
         /**
